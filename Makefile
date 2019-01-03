@@ -72,7 +72,8 @@ OBJECTS += Sources/CTrameLaBotBox.o
 OBJECTS += Sources/MessagerieCamera.o
 OBJECTS += Sources/MessagerieLaBotBox.o
 OBJECTS += Sources/RessoucesHardware.o
-
+OBJECTS += ModeleSCT/src/CPPTimerInterface.o
+OBJECTS += ModeleSCT/src-gen/IA.o
 
  SYS_OBJECTS += mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/CRP.o
  SYS_OBJECTS += mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/analogin_api.o
@@ -109,7 +110,8 @@ INCLUDE_PATHS += -I../mbed/drivers
 INCLUDE_PATHS += -I../mbed/hal
 INCLUDE_PATHS += -I../mbed/platform
 INCLUDE_PATHS += -I../Includes
-
+INCLUDE_PATHS += -I../ModeleSCT/src
+INCLUDE_PATHS += -I../ModeleSCT/src-gen
 
 LIBRARY_PATHS := -L../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM 
 LIBRARIES := -lmbed 

@@ -8,3 +8,6 @@ mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/device
 mbed/drivers
 mbed/hal
 mbed/platform
+Includes
+ModeleSCT/src
+ModeleSCT/src-gen

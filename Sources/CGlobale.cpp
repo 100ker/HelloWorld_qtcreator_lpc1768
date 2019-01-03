@@ -57,8 +57,8 @@ void CGlobale::Run(void)
   wait_ms(3000);
 
   // Active les pull up sur les entrées
-  //_Etor1.mode(PullUp);
-  //_Etor2.mode(PullUp);
+  _Etor1.mode(PullUp);
+  _Etor2.mode(PullUp);
   m_capteurs.Init();
   /*if(m_capteurs.m_color_sensor_OK)
 	  _rs232_pc_tx.printf("\n\rCapteur couleur present\n\r");

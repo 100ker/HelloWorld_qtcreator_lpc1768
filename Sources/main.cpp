@@ -1,8 +1,8 @@
 #include "mbed.h"
-//#include "RessourcesHardware.h"
-//#include "CGlobale.h"
+#include "RessourcesHardware.h"
+#include "CGlobale.h"
 
-//CGlobale Application;
+CGlobale Application;
 
 
 // _____________________________________________________________
@@ -12,9 +12,9 @@ int main() {
 	wait_ms(1);
 
     // Initialise le gestionnaire de temps
-//    _Global_Timer.start();
+    _Global_Timer.start();
 
-//     Application.Run();
+     Application.Run();
     
 	 while(1) {
 	 	// Ce code ne devrait jamais être atteint
