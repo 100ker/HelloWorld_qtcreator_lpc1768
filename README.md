@@ -6,3 +6,7 @@ Pour ajouter un fichier à compiler :
    - Mettre à jour le fichier .files pour l'IDE Qt Creator
 
 Idem pour ajouter des  includes path.
+
+Le projet de base est issu d'un export du site MBED auquel sont ajoutés les fichiers du projet GROSBOT_MBED CRLG.
+Utilisé comme démonstrateur de faisabilité pour se passer de GCC4MBED
+
