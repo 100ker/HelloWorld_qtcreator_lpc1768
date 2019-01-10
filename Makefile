@@ -7,43 +7,76 @@
 # Project settings
 PROJECT := HelloWorld
 MBED_OS_PATH := ext/mbed-os
+MBED_COMMON_ROB_PATH := ext/mbed-common-rob
+CPPROBLIB_PATH := ext/CppRobLib
 OBJDIR := BUILD
 
 ###############################################################################
-# Objects and Paths for project
+# Objects and Paths specific for project
 INCLUDE_PATHS += -I../.
 INCLUDE_PATHS += -I../Includes
 INCLUDE_PATHS += -I../ModeleSCT/src
 INCLUDE_PATHS += -I../ModeleSCT/src-gen
 
 OBJECTS += Sources/main.o
-OBJECTS += Sources/CAsservissementChariot.o
-OBJECTS += Sources/CAsservissement.o
-OBJECTS += Sources/CAsservissementSulfateuse.o
-OBJECTS += Sources/CCamera.o
-OBJECTS += Sources/CCapteurs.o
-OBJECTS += Sources/CEEPROM.o
-OBJECTS += Sources/CGlobale.o
-OBJECTS += Sources/CGlobale_ModeAutonome.o
-OBJECTS += Sources/CGlobale_ModePiloteLaBotBox.o
-OBJECTS += Sources/CGlobale_ModePiloteTerminal.o
-OBJECTS += Sources/CLaBotBox.o
-OBJECTS += Sources/CLeds.o
-OBJECTS += Sources/CMatch.o
-OBJECTS += Sources/CMoteurs.o
-OBJECTS += Sources/ConfigFile.o
-OBJECTS += Sources/CRoues.o
-OBJECTS += Sources/CServoMoteurAX.o
-OBJECTS += Sources/CServoMoteurSD20.o
-OBJECTS += Sources/CTelemetres.o
-OBJECTS += Sources/CTrameCamera.o
-OBJECTS += Sources/CTrameCAN.o
-OBJECTS += Sources/CTrameLaBotBox.o
-OBJECTS += Sources/MessagerieCamera.o
-OBJECTS += Sources/MessagerieLaBotBox.o
+OBJECTS += Sources/MessengerXbeeNetwork2019.o
+OBJECTS += Sources/xbeedriver.o
 OBJECTS += Sources/RessoucesHardware.o
 OBJECTS += ModeleSCT/src/CPPTimerInterface.o
 OBJECTS += ModeleSCT/src-gen/IA.o
+
+###############################################################################
+# Objects and Paths for mbed-common
+INCLUDE_PATHS += -I../$(MBED_COMMON_ROB_PATH)
+INCLUDE_PATHS += -I../$(MBED_COMMON_ROB_PATH)/Includes
+
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CAsservissementChariot.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CAsservissement.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CAsservissementSulfateuse.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CCamera.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CCapteurs.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CEEPROM.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CGlobale.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CGlobale_ModeAutonome.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CGlobale_ModePiloteLaBotBox.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CGlobale_ModePiloteTerminal.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CLaBotBox.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CLeds.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CMatch.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CMoteurs.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/ConfigFile.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CRoues.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CServoMoteurAX.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CServoMoteurSD20.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CTelemetres.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CTrameCamera.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CTrameCAN.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/CTrameLaBotBox.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/MessagerieCamera.o
+OBJECTS += $(MBED_COMMON_ROB_PATH)/Sources/MessagerieLaBotBox.o
+
+###############################################################################
+# Objects and Paths for CppRobLib
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/Communication
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/Communication/Messenger
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/Communication/Messenger/DatabaseXbeeNetwork2019
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/Communication/Messenger/MessagesGeneric
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/Communication/XBEE
+INCLUDE_PATHS += -I../$(CPPROBLIB_PATH)/ServosAX
+
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/databasebase.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/messagebase.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/messengerinterfacebase.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/transporterbase.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/transportergeneric.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/DatabaseXbeeNetwork2019/databasexbeenetwork2019.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/DatabaseXbeeNetwork2019/message_experience_status.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/Messenger/MessagesGeneric/message_timestamp_match.o
+OBJECTS += $(CPPROBLIB_PATH)/Communication/XBEE/xbeedriverbase.o
+OBJECTS += $(CPPROBLIB_PATH)/ServosAX/servoaxbase.o
+OBJECTS += $(CPPROBLIB_PATH)/ServosAX/servoax_utils.o
+
 
 ###############################################################################
 #  DO NOT MODIFY FROM HERE
@@ -61,7 +94,6 @@ else
     RM = '$(SHELL)' -c "rm -rf \"$(1)\""
 endif
 
-OBJDIR := BUILD
 # Move to the build directory
 ifeq (,$(filter $(OBJDIR),$(notdir $(CURDIR))))
 .SUFFIXES:
@@ -134,6 +166,8 @@ CC      = arm-none-eabi-gcc
 CPP     = arm-none-eabi-g++
 LD      = arm-none-eabi-gcc
 ELF2BIN = arm-none-eabi-objcopy
+OBJDUMP = arm-none-eabi-objdump
+ELFSIZE = arm-none-eabi-size
 PREPROC = arm-none-eabi-cpp -E -P -Wl,--gc-sections -Wl,--wrap,main -Wl,--wrap,_malloc_r -Wl,--wrap,_free_r -Wl,--wrap,_realloc_r -Wl,--wrap,_memalign_r -Wl,--wrap,_calloc_r -Wl,--wrap,exit -Wl,--wrap,atexit -Wl,-n -mcpu=cortex-m3 -mthumb
 
 
@@ -208,7 +242,7 @@ C_FLAGS += -mthumb
 C_FLAGS += -DMBED_ROM_START=0x0
 C_FLAGS += -DMBED_ROM_SIZE=0x80000
 
-CXX_FLAGS += -std=gnu++98
+CXX_FLAGS += -std=gnu++11 #NSACXX_FLAGS += -std=gnu++98
 CXX_FLAGS += -fno-rtti
 CXX_FLAGS += -Wvla
 CXX_FLAGS += -include
@@ -259,7 +293,6 @@ CXX_FLAGS += -DDEVICE_SEMIHOST=1
 CXX_FLAGS += -DDEVICE_DEBUG_AWARENESS=1
 CXX_FLAGS += -include
 CXX_FLAGS += mbed_config.h
-CXX_FLAGS += -std=gnu++98
 CXX_FLAGS += -fno-rtti
 CXX_FLAGS += -Wvla
 CXX_FLAGS += -c
@@ -267,6 +300,7 @@ CXX_FLAGS += -Wall
 CXX_FLAGS += -Wextra
 CXX_FLAGS += -Wno-unused-parameter
 CXX_FLAGS += -Wno-missing-field-initializers
+CXX_FLAGS += -Wignored-qualifiers
 CXX_FLAGS += -fmessage-length=0
 CXX_FLAGS += -fno-exceptions
 CXX_FLAGS += -fno-builtin
@@ -290,13 +324,13 @@ ASM_FLAGS += -D__MBED_CMSIS_RTOS_CM
 ASM_FLAGS += -D__CORTEX_M3
 ASM_FLAGS += -DARM_MATH_CM3
 ASM_FLAGS += -I../.
-ASM_FLAGS += -I../mbed
-ASM_FLAGS += -I../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM
-ASM_FLAGS += -I../mbed/drivers
-ASM_FLAGS += -I../mbed/hal
-ASM_FLAGS += -I../mbed/platform
+ASM_FLAGS += -I../$(MBED_OS_PATH)/mbed
+ASM_FLAGS += -I../$(MBED_OS_PATH)/mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM
+ASM_FLAGS += -I../$(MBED_OS_PATH)/mbed/drivers
+ASM_FLAGS += -I../$(MBED_OS_PATH)/mbed/hal
+ASM_FLAGS += -I../$(MBED_OS_PATH)/mbed/platform
 ASM_FLAGS += -include
-ASM_FLAGS += /filer/workspace_data/exports/b/b1dca619a4598d18746d1933d2d8320c/HelloWorld2/mbed_config.h
+ASM_FLAGS += /filer/workspace_data/exports/b/b1dca619a4598d18746d1933d2d8320c/$(PROJECT)/mbed_config.h
 ASM_FLAGS += -x
 ASM_FLAGS += assembler-with-cpp
 ASM_FLAGS += -c
@@ -329,7 +363,7 @@ LD_SYS_LIBS :=-Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -lmbed -
 .PHONY: all lst size
 
 
-all: $(PROJECT).bin $(PROJECT).hex size
+all: $(PROJECT).bin $(PROJECT).hex $(PROJECT).disasm size
 
 
 .s.o:
@@ -355,6 +389,7 @@ all: $(PROJECT).bin $(PROJECT).hex size
 .cpp.o:
 	+@$(call MAKEDIR,$(dir $@))
 	+@echo "Compile: $(notdir $<)"
+	+@echo "@$(CPP) $(CXX_FLAGS) $(INCLUDE_PATHS) -o $@ $<"
 	@$(CPP) $(CXX_FLAGS) $(INCLUDE_PATHS) -o $@ $<
 
 
@@ -365,6 +400,7 @@ $(PROJECT).link_script.ld: $(LINKER_SCRIPT)
 
 $(PROJECT).elf: $(OBJECTS) $(SYS_OBJECTS) $(PROJECT).link_script.ld 
 	+@echo "link: $(notdir $@)"
+	+@echo "@$(LD) $(LD_FLAGS) -T $(filter-out %.o, $^) $(LIBRARY_PATHS) --output $@ $(filter %.o, $^) $(LIBRARIES) $(LD_SYS_LIBS)"
 	@$(LD) $(LD_FLAGS) -T $(filter-out %.o, $^) $(LIBRARY_PATHS) --output $@ $(filter %.o, $^) $(LIBRARIES) $(LD_SYS_LIBS)
 
 
@@ -375,6 +411,11 @@ $(PROJECT).bin: $(PROJECT).elf
 $(PROJECT).hex: $(PROJECT).elf
 	$(ELF2BIN) -O ihex $< $@
 
+$(PROJECT).disasm: $(PROJECT).elf
+	@$(OBJDUMP) -d -f -M reg-names-std --demangle $< >$@
+
+size: $(PROJECT).elf
+	@$(ELFSIZE) $<
 
 # Rules
 ###############################################################################
